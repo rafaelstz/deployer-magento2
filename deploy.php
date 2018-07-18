@@ -60,12 +60,7 @@ task('magento:compile', function () {
 desc('Deploy assets');
 task('magento:deploy:assets', function () {
     run("{{php}} {{release_path}}{{magento_bin}} setup:static-content:deploy");
-})->onHosts('production');
-
-desc('Deploy assets');
-task('magento:deploy:assets', function () {
-    run("{{php}} {{release_path}}{{magento_bin}} setup:static-content:deploy -f");
-})->onHosts('staging');
+});
 
 desc('Enable maintenance mode');
 task('magento:maintenance:enable', function () {
