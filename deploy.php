@@ -49,14 +49,14 @@ set('clear_paths', [
 
 desc('Composer Install');
 task('composer:install', function () {
-    run("cd {{release_path}}{{magento_dir}} && {{composer}} install --no-dev --prefer-dist --optimize-autoloader ");
-    run('cd {{release_path}}{{magento_dir}} && {{composer}} dump-autoload --no-dev --no-interaction --optimize 2>&1');
+    run("cd {{release_path}}{{magento_dir}} && {{composer}} install --prefer-dist --optimize-autoloader ");
+    run('cd {{release_path}}{{magento_dir}} && {{composer}} dump-autoload --no-interaction --optimize 2>&1');
 });
 
 desc('Composer update');
 task('composer:update', function () {
-    run("cd {{release_path}}{{magento_dir}} && {{composer}} update --no-dev --prefer-dist --optimize-autoloader ");
-    run('cd {{release_path}}{{magento_dir}} && {{composer}} dump-autoload --no-dev --no-interaction --optimize 2>&1');
+    run("cd {{release_path}}{{magento_dir}} && {{composer}} update --prefer-dist --optimize-autoloader ");
+    run('cd {{release_path}}{{magento_dir}} && {{composer}} dump-autoload --no-interaction --optimize 2>&1');
 });
 
 desc('Compile Magento DI');
