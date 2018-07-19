@@ -66,7 +66,11 @@ task('magento:compile', function () {
 
 desc('Deploy assets');
 task('magento:deploy:assets', function () {
-    run("{{php}} {{release_path}}{{magento_bin}} setup:static-content:deploy");
+    if(get('is_production')){    
+        run("{{php}} {{release_path}}{{magento_bin}} setup:static-content:deploy");
+    }else{
+        run("{{php}} {{release_path}}{{magento_bin}} setup:static-content:deploy -f");
+    }
 });
 
 desc('Enable maintenance mode');
