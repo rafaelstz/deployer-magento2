@@ -147,8 +147,8 @@ task('deploy', [
     'deploy:release',
     'deploy:update_code',
     'deploy:shared',
-//    'deploy:writable',
     'deploy:vendors',
+    //    'deploy:writable',
     'deploy:clear_paths',
     'composer update',
     'deploy:magento',
@@ -160,9 +160,11 @@ task('deploy', [
     'success'
 ]);
 
-after('deploy:failed', 'magento:maintenance:disable');
 after('deploy:failed', 'deploy:unlock');
+after('deploy:failed', 'deploy:magento');
+after('deploy:failed', 'magento:maintenance:disable');
 
 before('rollback', 'rollback:validate');
-after('rollback', 'maintenance:disable');
+after('rollback', 'magento:maintenance:disable');
+after('rollback', 'deploy:magento');
 after('rollback', 'cache:clear');
