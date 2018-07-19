@@ -14,6 +14,7 @@ set('default_timeout', 360);
 set('release_name', function (){return date('YmdHis');});
 
 # ----- Magento properties -------
+set('is_production', 0);
 set('languages', 'en_US');
 set('magento_dir', '/');
 set('magento_bin', '{{magento_dir}}bin/magento');
@@ -90,13 +91,12 @@ task('magento:config', function () {
 
 desc('Set deploy mode set');
 task('magento:deploy:mode:set', function () {
-    run("{{php}} -f {{release_path}}{{magento_bin}} deploy:mode:set production --skip-compilation");
-})->onHosts('production');
-
-desc('Set deploy mode set');
-task('magento:deploy:mode:set', function () {
-    run("{{php}} -f {{release_path}}{{magento_bin}} deploy:mode:set developer");
-})->onHosts('staging');
+    if(get('is_production')){    
+        run("{{php}} -f {{release_path}}{{magento_bin}} deploy:mode:set production --skip-compilation");
+    }else{
+        run("{{php}} -f {{release_path}}{{magento_bin}} deploy:mode:set developer");
+    }
+});
 
 desc('Set right permissions to folders and files');
 task('magento:setup:permissions', function () {
