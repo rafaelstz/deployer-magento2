@@ -139,7 +139,7 @@ task('deploy', [
 //    'deploy:writable',
     'deploy:vendors',
     'deploy:clear_paths',
-    'composer:update',
+    // 'composer:update',
     'magento:config',
     'deploy:magento',
     'deploy:symlink',
