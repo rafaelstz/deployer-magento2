@@ -128,6 +128,7 @@ task('opcache:flush', function () {
 desc('Magento2 deployment operations');
 task('deploy:magento', [
     'magento:setup:permissions',
+    'magento:config',
     'magento:deploy:mode:set',
     'magento:deploy:assets',
     'magento:compile',
@@ -149,7 +150,7 @@ task('deploy', [
 //    'deploy:writable',
     'deploy:vendors',
     'deploy:clear_paths',
-    'magento:config',
+    'composer update',
     'deploy:magento',
     'deploy:symlink',
     'opcache:flush',
