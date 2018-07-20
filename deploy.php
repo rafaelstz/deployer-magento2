@@ -150,7 +150,7 @@ task('deploy', [
     'deploy:vendors',
     //    'deploy:writable',
     'deploy:clear_paths',
-    'composer update',
+    'composer:update',
     'deploy:magento',
     'deploy:symlink',
     'opcache:flush',
