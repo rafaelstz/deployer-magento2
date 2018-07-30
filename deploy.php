@@ -13,8 +13,6 @@ set('composer', '/usr/local/bin/composer');
 set('default_timeout', 360);
 set('release_name', function (){return date('YmdHis');});
 
-localhost('build');
-
 # ----- Magento properties -------
 set('is_production', 0);
 set('languages', 'en_US');
