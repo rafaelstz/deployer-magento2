@@ -165,6 +165,6 @@ after('deploy:failed', 'deploy:magento');
 after('deploy:failed', 'magento:maintenance:disable');
 
 before('rollback', 'rollback:validate');
-after('rollback', 'magento:maintenance:disable');
 after('rollback', 'deploy:magento');
+after('rollback', 'magento:maintenance:disable');
 after('rollback', 'cache:clear');
