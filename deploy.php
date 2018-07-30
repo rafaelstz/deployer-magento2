@@ -13,6 +13,8 @@ set('composer', '/usr/local/bin/composer');
 set('default_timeout', 360);
 set('release_name', function (){return date('YmdHis');});
 
+localhost('build');
+
 # ----- Magento properties -------
 set('is_production', 0);
 set('languages', 'en_US');
@@ -60,7 +62,7 @@ task('composer:install', function () {
 
 desc('Composer update');
 task('composer:update', function () {
-    run("cd {{release_path}}{{magento_dir}} && {{composer}} update --prefer-dist --optimize-autoloader ");
+    run("cd {{release_path}}{{magento_dir}} && {{composer}} update --prefer-dist --optimize-autoloader -vvvv");
     run('cd {{release_path}}{{magento_dir}} && {{composer}} dump-autoload --no-interaction --optimize 2>&1');
 });
 
