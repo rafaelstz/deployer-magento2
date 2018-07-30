@@ -27,8 +27,13 @@ set('shared_files', [
 set('shared_dirs', [
     '{{magento_dir}}var/composer_home',
     '{{magento_dir}}var/log',
+    '{{magento_dir}}var/export',
+    '{{magento_dir}}var/report',
+    '{{magento_dir}}var/import_history',
     '{{magento_dir}}var/session',
+    '{{magento_dir}}var/importexport',
     '{{magento_dir}}var/backups',
+    '{{magento_dir}}pub/sitemaps',
     '{{magento_dir}}pub/media'
 ]);
 set('writable_dirs', [
