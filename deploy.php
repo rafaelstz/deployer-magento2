@@ -49,7 +49,6 @@ set('clear_paths', [
     '{{magento_dir}}var/tmp'
 ]);
 
-
 # ----- Magento 2 Tasks -------
 
 desc('Composer Install');
@@ -71,7 +70,7 @@ task('magento:compile', function () {
 
 desc('Deploy assets');
 task('magento:deploy:assets', function () {
-    if(get('is_production')){    
+    if(get('is_production')){
         run("{{php}} {{release_path}}{{magento_bin}} setup:static-content:deploy");
     }else{
         run("{{php}} {{release_path}}{{magento_bin}} setup:static-content:deploy -f");
@@ -106,7 +105,7 @@ task('magento:config', function () {
 
 desc('Set deploy mode set');
 task('magento:deploy:mode:set', function () {
-    if(get('is_production')){    
+    if(get('is_production')){
         run("{{php}} -f {{release_path}}{{magento_bin}} deploy:mode:set production --skip-compilation");
     }else{
         run("{{php}} -f {{release_path}}{{magento_bin}} deploy:mode:set developer");
@@ -116,16 +115,17 @@ task('magento:deploy:mode:set', function () {
 desc('Set right permissions to folders and files');
 task('magento:setup:permissions', function () {
     run("find {{release_path}}{{magento_dir}} -type d ! -perm 2770 -exec chmod 2770 {} +");
-        run("find {{release_path}}{{magento_dir}} -type f ! -perm 660 -exec chmod 660 {} +");
-        run("chmod -R 777 {{release_path}}{{magento_dir}}var/");
-        run("chmod -R 777 {{release_path}}{{magento_dir}}generated/");
-        run("chmod -R 777 {{release_path}}{{magento_dir}}pub/static/");
-        run("chmod +x {{release_path}}{{magento_bin}}");
+    run("find {{release_path}}{{magento_dir}} -type f ! -perm 660 -exec chmod 660 {} +");
+    run("chmod -R 777 {{release_path}}{{magento_dir}}var/");
+    run("chmod -R 777 {{release_path}}{{magento_dir}}generated/");
+    run("chmod -R 777 {{release_path}}{{magento_dir}}pub/static/");
+    run("chmod +x {{release_path}}{{magento_bin}}");
 });
 
 desc('Lock the previous release with the maintenance flag');
 task('deploy:previous', function () {
-    run("{{php}} {{previous_release}}{{magento_bin}} maintenance:enable");
+    $releases = get('releases_list');
+    run("{{php}} {{deploy_path}}/releases/{$releases[1]}{{magento_bin}} maintenance:enable");
 });
 
 desc('Redis cache flush');
