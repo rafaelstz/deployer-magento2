@@ -169,6 +169,7 @@ task('deploy', [
     'opcache:flush',
     'redis:flush',
     'deploy:unlock',
+    'deploy:previous',
     'cleanup',
     'success'
 ]);
