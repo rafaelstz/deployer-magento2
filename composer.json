@@ -12,7 +12,8 @@
     }
   ],
   "require": {
-    "deployer/dist": "^6.0"
+    "deployer/dist": "^6.0",
+    "deployer/recipes": "^6.1"
   },
   "require-dev": {
     "phpro/grumphp": "^0.14.0",

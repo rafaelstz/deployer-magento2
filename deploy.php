@@ -2,6 +2,8 @@
 
 namespace Deployer;
 require 'recipe/common.php';
+require 'recipe/cachetool.php';
+require 'vendor/deployer/recipes/recipe/slack.php';
 
 # ----- Deployment properties ---
 set('forwardAgent', true);
@@ -182,3 +184,13 @@ before('rollback', 'rollback:validate');
 after('rollback', 'deploy:magento');
 after('rollback', 'magento:maintenance:disable');
 after('rollback', 'cache:clear');
+
+// ======= Cachetool
+// after('deploy:symlink', 'cachetool:clear:opcache');
+// or
+// after('deploy:symlink', 'cachetool:clear:apc');
+
+// ======= Slack
+before('deploy', 'slack:notify');
+after('success', 'slack:notify:success');
+after('deploy:failed', 'slack:notify:failure');
