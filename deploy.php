@@ -113,11 +113,19 @@ task('magento:deploy:mode:set', function () {
     }
 });
 
-desc('Set right permissions to folders and files');
-task('magento:setup:permissions', function () {
+desc('Lock the previous release with the maintenance flag');
+task('deploy:previous', function () {
     run("find {{release_path}}{{magento_dir}} -type d ! -perm 2770 -exec chmod 2770 {} +");
-    run("find {{release_path}}{{magento_dir}} -type f ! -perm 660 -exec chmod 660 {} +");
-    run("chmod +x {{release_path}}{{magento_bin}}");
+        run("find {{release_path}}{{magento_dir}} -type f ! -perm 660 -exec chmod 660 {} +");
+        run("chmod -R 777 {{release_path}}{{magento_dir}}var/");
+        run("chmod -R 777 {{release_path}}{{magento_dir}}generated/");
+        run("chmod -R 777 {{release_path}}{{magento_dir}}pub/static/");
+        run("chmod +x {{release_path}}{{magento_bin}}");
+});
+
+desc('Lock old previous release');
+task('redis:flush', function () {
+    run("{{php}} {{previous_release}}{{magento_bin}} maintenance:enable");
 });
 
 desc('Redis cache flush');
