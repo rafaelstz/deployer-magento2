@@ -2,7 +2,7 @@
 
 namespace Deployer;
 require 'recipe/common.php';
-require 'recipe/cachetool.php';
+require 'vendor/deployer/recipes/recipe/cachetool.php';
 require 'vendor/deployer/recipes/recipe/slack.php';
 
 # ----- Deployment properties ---
