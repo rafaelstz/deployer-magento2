@@ -185,12 +185,14 @@ after('rollback', 'deploy:magento');
 after('rollback', 'magento:maintenance:disable');
 after('rollback', 'cache:clear');
 
+// composer require deployer/recipes --dev
+
 // ======= Cachetool
 // after('deploy:symlink', 'cachetool:clear:opcache');
 // or
 // after('deploy:symlink', 'cachetool:clear:apc');
 
 // ======= Slack
-before('deploy', 'slack:notify');
-after('success', 'slack:notify:success');
-after('deploy:failed', 'slack:notify:failure');
+//before('deploy', 'slack:notify');
+//after('success', 'slack:notify:success');
+//after('deploy:failed', 'slack:notify:failure');
