@@ -7,6 +7,7 @@ Install
 Install it using Composer:
 
 ```
+composer require deployer/recipes --dev
 composer require --dev rafaelstz/deployer-magento2 dev-master
 ```
 
