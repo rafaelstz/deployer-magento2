@@ -177,7 +177,7 @@ task('deploy', [
 ]);
 
 after('deploy:failed', 'deploy:unlock');
-after('deploy:failed', 'deploy:magento');
+// after('deploy:failed', 'deploy:magento');
 after('deploy:failed', 'magento:maintenance:disable');
 
 before('rollback', 'rollback:validate');
