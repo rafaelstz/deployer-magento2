@@ -137,7 +137,7 @@ task('redis:flush', function () {
 
 desc('OPCache cache flush');
 task('opcache:flush', function () {
-    run("php -r 'echo opcache_reset();'");
+    run("{{php}} -r 'opcache_reset();'");
 });
 
 desc('Magento2 deployment operations');
