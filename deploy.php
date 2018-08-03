@@ -1,5 +1,11 @@
 <?php
 
+// Installing deployer and dependencies
+// 
+// curl -LO https://deployer.org/deployer.phar && sudo mv deployer.phar /usr/local/bin/dep && sudo chmod +x /usr/local/bin/dep
+// composer require deployer/recipes --dev
+// composer require rafaelstz/deployer-magento2 dev-master --dev
+
 namespace Deployer;
 require 'recipe/common.php';
 require 'vendor/deployer/recipes/recipe/cachetool.php';
