@@ -81,18 +81,18 @@ task('magento:deploy:assets', function () {
 
 desc('Enable maintenance mode');
 task('magento:maintenance:enable', function () {
-    run("if [ -d $(echo {{deploy_path}}/current) ]; then {{php}} {{release_path}}{{magento_bin}} maintenance:enable; fi");
+    run("if [ -d $(echo {{deploy_path}}/current/bin) ]; then {{php}} {{release_path}}{{magento_bin}} maintenance:enable; fi");
 });
 
 desc('Disable maintenance mode');
 task('magento:maintenance:disable', function () {
-    run("if [ -d $(echo {{deploy_path}}/current) ]; then {{php}} {{release_path}}{{magento_bin}} maintenance:disable; fi");
+    run("if [ -d $(echo {{deploy_path}}/current/bin) ]; then {{php}} {{release_path}}{{magento_bin}} maintenance:disable; fi");
 });
 
 desc('Upgrade magento database');
 task('magento:upgrade:db', function () {
     run("{{php}} {{release_path}}{{magento_bin}} setup:upgrade --keep-generated");
-    run("{{magerun}} sys:setup:downgrade-versions --root-dir={{release_path}}");
+    run("{{php}} {{magerun}} sys:setup:downgrade-versions --root-dir={{release_path}}");
 });
 
 desc('Flush Magento Cache');
@@ -118,9 +118,9 @@ desc('Set right permissions to folders and files');
 task('magento:setup:permissions', function () {
     run("find {{release_path}}{{magento_dir}} -type d ! -perm 2770 -exec chmod 2770 {} +");
     run("find {{release_path}}{{magento_dir}} -type f ! -perm 660 -exec chmod 660 {} +");
-    run("chmod -R 777 {{release_path}}{{magento_dir}}var/");
-    run("chmod -R 777 {{release_path}}{{magento_dir}}generated/");
-    run("chmod -R 777 {{release_path}}{{magento_dir}}pub/static/");
+    run("chmod -R 775 {{release_path}}{{magento_dir}}var/");
+    run("chmod -R 775 {{release_path}}{{magento_dir}}generated/");
+    run("chmod -R 775 {{release_path}}{{magento_dir}}pub/static/");
     run("chmod +x {{release_path}}{{magento_bin}}");
 });
 
