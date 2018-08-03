@@ -20,7 +20,7 @@ composer require rafaelstz/deployer-magento2 dev-master --dev
 Usage
 -----
 
-Create in your **root** folder a file called `deploy.php` and configure your project:
+You can use the command `dep deploy` to run it, but you need to create in your **root** folder a file called `deploy.php` and configure your project follow this example below:
 
 ```php
 <?php
@@ -61,4 +61,3 @@ host('my-store.com')
 
 
 ```
-
