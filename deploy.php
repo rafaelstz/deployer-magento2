@@ -133,7 +133,9 @@ task('magento:setup:permissions', function () {
 desc('Lock the previous release with the maintenance flag');
 task('deploy:previous', function () {
     $releases = get('releases_list');
-    run("{{php}} {{deploy_path}}/releases/{$releases[1]}{{magento_bin}} maintenance:enable");
+    if($releases[1]){
+        run("{{php}} {{deploy_path}}/releases/{$releases[1]}{{magento_bin}} maintenance:enable");
+    }
 });
 
 desc('Redis cache flush');
