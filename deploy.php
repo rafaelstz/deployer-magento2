@@ -111,6 +111,11 @@ task('magento:config', function () {
     run("{{php}} {{release_path}}{{magento_bin}} config:set dev/template/allow_symlink 1");
 });
 
+desc('Remove the content of the generated folder');
+task('magento:clean:generated', function () {
+    run("cd {{release_path}}; rm -rf generated/*");
+});
+
 desc('Set deploy mode set');
 task('magento:deploy:mode:set', function () {
     if(get('is_production')){
@@ -154,10 +159,11 @@ task('deploy:magento', [
     'magento:config',
     'magento:deploy:mode:set',
     'magento:deploy:assets',
-    'magento:compile',
+    'magento:clean:generated',
     'magento:maintenance:enable',
     'magento:upgrade:db',
     'magento:maintenance:disable',
+    'magento:compile',
     'magento:cache:flush',
     'magento:setup:permissions'
 ]);
