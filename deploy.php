@@ -57,6 +57,10 @@ set('clear_paths', [
     '{{magento_dir}}var/tmp'
 ]);
 
+set('magento_version', function (){
+    return run("{{magerun}} sys:info version --root-dir={{release_path}}");
+});
+
 # ----- Magento 2 Tasks -------
 
 desc('Composer Install');
@@ -108,7 +112,7 @@ task('magento:cache:flush', function () {
 
 desc('Enable allow symlink config in Magento Panel');
 task('magento:config', function () {
-    run("{{php}} {{release_path}}{{magento_bin}} config:set dev/template/allow_symlink 1");
+    run("cd {{release_path}} && {{php}} {{magerun}} config:set dev/template/allow_symlink 1");
 });
 
 desc('Remove the content of the generated folder');
