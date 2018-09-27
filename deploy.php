@@ -1,7 +1,7 @@
 <?php
 
 // Installing deployer and dependencies
-// 
+//
 // curl -LO https://deployer.org/deployer.phar && sudo mv deployer.phar /usr/local/bin/dep && sudo chmod +x /usr/local/bin/dep
 // composer require deployer/recipes --dev
 // composer require rafaelstz/deployer-magento2 dev-master --dev
@@ -131,8 +131,8 @@ task('magento:deploy:mode:set', function () {
 
 desc('Set right permissions to folders and files');
 task('magento:setup:permissions', function () {
-    run("find {{release_path}}{{magento_dir}} -type d ! -perm 2770 -exec chmod 2770 {} +");
-    run("find {{release_path}}{{magento_dir}} -type f ! -perm 660 -exec chmod 660 {} +");
+    run("find {{release_path}}{{magento_dir}} -type d -exec chmod 755 {} \;");
+    run("find {{release_path}}{{magento_dir}} -type f -exec chmod 644 {} \;");
     run("chmod -R 775 {{release_path}}{{magento_dir}}var/");
     run("chmod -R 775 {{release_path}}{{magento_dir}}generated/");
     run("chmod -R 775 {{release_path}}{{magento_dir}}pub/static/");
