@@ -101,7 +101,7 @@ task('magento:maintenance:disable', function () {
 
 desc('Upgrade magento database');
 task('magento:upgrade:db', function () {
-    run("{{php}} {{release_path}}{{magento_bin}} setup:upgrade --keep-generated");
+    run("{{php}} {{magerun}} setup:upgrade --keep-generated --root-dir={{release_path}}");
     run("{{php}} {{magerun}} sys:setup:downgrade-versions --root-dir={{release_path}}");
 });
 
