@@ -133,8 +133,8 @@ desc('Set right permissions to folders and files');
 task('magento:setup:permissions', function () {
     run("find {{release_path}}{{magento_dir}} -type d -exec chmod 755 {} \;");
     run("find {{release_path}}{{magento_dir}} -type f -exec chmod 644 {} \;");
-    run("chmod -R 777 {{release_path}}{{magento_dir}}var/*");
-    run("chmod -R 777 {{release_path}}{{magento_dir}}generated/*");
+    run("chmod -R 777 {{release_path}}{{magento_dir}}var");
+    run("chmod -R 777 {{release_path}}{{magento_dir}}generated");
     run("chmod -R 777 {{release_path}}{{magento_dir}}pub/static");
     run("chmod +x {{release_path}}{{magento_bin}}");
 });
