@@ -198,10 +198,10 @@ after('deploy:failed', 'deploy:unlock');
 // after('deploy:failed', 'deploy:magento');
 after('deploy:failed', 'magento:maintenance:disable');
 
-before('rollback', 'rollback:validate');
+// before('rollback', 'rollback:validate');
 after('rollback', 'deploy:magento');
 after('rollback', 'magento:maintenance:disable');
-after('rollback', 'cache:clear');
+after('rollback', 'magento:cache:flush');
 
 // composer require deployer/recipes --dev
 
