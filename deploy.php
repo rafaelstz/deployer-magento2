@@ -71,7 +71,7 @@ task('composer:install', function () {
 
 desc('Composer update');
 task('composer:update', function () {
-    run("cd {{release_path}}{{magento_dir}} && {{composer}} update --prefer-dist --optimize-autoloader --quiet -vvvv");
+    run("cd {{release_path}}{{magento_dir}} && {{composer}} update --prefer-dist --optimize-autoloader -vvvv");
     run('cd {{release_path}}{{magento_dir}} && {{composer}} dump-autoload --no-interaction --optimize 2>&1');
 });
 
