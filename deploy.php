@@ -66,13 +66,13 @@ set('magento_version', function (){
 
 desc('Composer Install');
 task('composer:install', function () {
-    run("cd {{release_path}}{{magento_dir}} && {{composer}} install --prefer-dist --optimize-autoloader --quiet");
+    run("cd {{release_path}}{{magento_dir}} && {{composer}} install --prefer-dist --optimize-autoloader {{verbose}}");
     run('cd {{release_path}}{{magento_dir}} && {{composer}} dump-autoload --no-interaction --optimize 2>&1');
 });
 
 desc('Composer update');
 task('composer:update', function () {
-    run("cd {{release_path}}{{magento_dir}} && {{composer}} update --prefer-dist --optimize-autoloader -vvvv");
+    run("cd {{release_path}}{{magento_dir}} && {{composer}} update --prefer-dist --optimize-autoloader {{verbose}}");
     run('cd {{release_path}}{{magento_dir}} && {{composer}} dump-autoload --no-interaction --optimize 2>&1');
 });
 
