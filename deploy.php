@@ -19,7 +19,7 @@ set('php', '/usr/local/bin/php');
 set('magerun', '/usr/local/bin/n98-magerun2');
 set('composer', '/usr/local/bin/composer');
 set('default_timeout', 360);
-set('verbose', '--quite'); // Use --quite or -v or -vvv
+set('verbose', '--quiet'); // Use --quite or -v or -vvv
 set('release_name', function (){return date('YmdHis');});
 
 # ----- Magento properties -------
