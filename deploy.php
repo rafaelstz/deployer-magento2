@@ -19,6 +19,7 @@ set('php', '/usr/local/bin/php');
 set('magerun', '/usr/local/bin/n98-magerun2');
 set('composer', '/usr/local/bin/composer');
 set('default_timeout', 360);
+set('default_timeout', '--quite'); // Use --quite or -v or -vvv
 set('release_name', function (){return date('YmdHis');});
 
 # ----- Magento properties -------
@@ -77,42 +78,42 @@ task('composer:update', function () {
 
 desc('Compile Magento DI');
 task('magento:compile', function () {
-    run("{{php}} {{release_path}}{{magento_bin}} setup:di:compile");
+    run("{{php}} {{release_path}}{{magento_bin}} setup:di:compile {{verbose}}");
 });
 
 desc('Deploy assets');
 task('magento:deploy:assets', function () {
     if(get('is_production')){
-        run("{{php}} {{release_path}}{{magento_bin}} setup:static-content:deploy");
+        run("{{php}} {{release_path}}{{magento_bin}} setup:static-content:deploy {{verbose}}");
     }else{
-        run("{{php}} {{release_path}}{{magento_bin}} setup:static-content:deploy -f");
+        run("{{php}} {{release_path}}{{magento_bin}} setup:static-content:deploy --force {{verbose}}");
     }
 });
 
 desc('Enable maintenance mode');
 task('magento:maintenance:enable', function () {
-    run("if [ -d $(echo {{release_path}}/current/bin) ]; then {{php}} {{release_path}}{{magento_bin}} maintenance:enable; fi");
+    run("if [ -d $(echo {{release_path}}/current/bin) ]; then {{php}} {{release_path}}{{magento_bin}} maintenance:enable {{verbose}}; fi");
 });
 
 desc('Disable maintenance mode');
 task('magento:maintenance:disable', function () {
-    run("if [ -d $(echo {{release_path}}/current/bin) ]; then {{php}} {{release_path}}{{magento_bin}} maintenance:disable; fi");
+    run("if [ -d $(echo {{release_path}}/current/bin) ]; then {{php}} {{release_path}}{{magento_bin}} maintenance:disable {{verbose}}; fi");
 });
 
 desc('Upgrade magento database');
 task('magento:upgrade:db', function () {
-    run("{{php}} {{magerun}} setup:upgrade --keep-generated --root-dir={{release_path}}");
-    run("{{php}} {{magerun}} sys:setup:downgrade-versions --root-dir={{release_path}}");
+    run("{{php}} {{magerun}} setup:upgrade --keep-generated --root-dir={{release_path}} {{verbose}}");
+    run("{{php}} {{magerun}} sys:setup:downgrade-versions --root-dir={{release_path}} {{verbose}}");
 });
 
 desc('Flush Magento Cache');
 task('magento:cache:flush', function () {
-    run("{{php}} {{release_path}}{{magento_bin}} cache:flush");
+    run("{{php}} {{release_path}}{{magento_bin}} cache:flush {{verbose}}");
 });
 
 desc('Enable allow symlink config in Magento Panel');
 task('magento:config', function () {
-    run("cd {{release_path}} && {{php}} {{magerun}} config:set dev/template/allow_symlink 1");
+    run("cd {{release_path}} && {{php}} {{magerun}} config:set dev/template/allow_symlink 1 {{verbose}}");
 });
 
 desc('Remove the content of the generated folder');
@@ -123,16 +124,17 @@ task('magento:clean:generated', function () {
 desc('Set deploy mode set');
 task('magento:deploy:mode:set', function () {
     if(get('is_production')){
-        run("{{php}} -f {{release_path}}{{magento_bin}} deploy:mode:set production --skip-compilation");
+        run("{{php}} -f {{release_path}}{{magento_bin}} deploy:mode:set production --skip-compilation {{verbose}}");
     }else{
-        run("{{php}} -f {{release_path}}{{magento_bin}} deploy:mode:set developer");
+        run("{{php}} -f {{release_path}}{{magento_bin}} deploy:mode:set developer {{verbose}}");
     }
 });
 
 desc('Set right permissions to folders and files');
 task('magento:setup:permissions', function () {
-    run("find {{release_path}}{{magento_dir}} -type d -exec chmod 755 {} \;");
-    run("find {{release_path}}{{magento_dir}} -type f -exec chmod 644 {} \;");
+    // run("find {{release_path}}{{magento_dir}} -type d -exec chmod 755 {} \;");
+    // run("find {{release_path}}{{magento_dir}} -type f -exec chmod 644 {} \;");    
+    run("chmod -R 755 {{release_path}}");
     run("chmod -R 777 {{release_path}}{{magento_dir}}var");
     run("chmod -R 777 {{release_path}}{{magento_dir}}generated");
     run("chmod -R 777 {{release_path}}{{magento_dir}}pub/static");
@@ -143,7 +145,7 @@ desc('Lock the previous release with the maintenance flag');
 task('deploy:previous', function () {
     $releases = get('releases_list');
     if($releases[1]){
-        run("{{php}} {{deploy_path}}/releases/{$releases[1]}{{magento_bin}} maintenance:enable");
+        run("{{php}} {{deploy_path}}/releases/{$releases[1]}{{magento_bin}} maintenance:enable {{verbose}}");
     }
 });
 
