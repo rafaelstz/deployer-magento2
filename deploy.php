@@ -113,7 +113,7 @@ task('magento:cache:flush', function () {
 
 desc('Enable allow symlink config in Magento Panel');
 task('magento:config', function () {
-    run("cd {{release_path}} && {{php}} {{magerun}} config:set dev/template/allow_symlink 1 {{verbose}}");
+    run("cd {{release_path}} && {{php}} {{magerun}} config:store:set dev/template/allow_symlink 1 {{verbose}}");
 });
 
 desc('Remove the content of the generated folder');
