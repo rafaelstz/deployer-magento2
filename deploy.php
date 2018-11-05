@@ -149,6 +149,15 @@ task('deploy:previous', function () {
 	}
 });
 
+desc('Change symlink for a copy of the folder');
+task('deploy:rmsymlink', function () {
+	$releases = get('releases_list');
+	if($releases[1]) {
+		run("rm {{deploy_path}}/current-old; mv {{deploy_path}}/current {{deploy_path}}/current-old");
+		run("cd {{deploy_path}} && cp -r releases/{$releases[0]} current");
+	}
+});
+
 desc('Redis cache flush');
 task('redis:flush', function () {
 	run("redis-cli -n 0 flushall");
