@@ -114,6 +114,11 @@ task('magento:cache:flush', function () {
 desc('Enable allow symlink config in Magento Panel');
 task('magento:config', function () {
 	run("cd {{release_path}} && {{php}} {{magerun}} config:store:set dev/template/allow_symlink 1 {{verbose}}");
+	if(get('is_production')){
+		run("cd {{release_path}} && {{php}} {{magerun}} config:store:set design/search_engine_robots/default_robots INDEX,FOLLOW {{verbose}}");
+	}else{
+		run("cd {{release_path}} && {{php}} {{magerun}} config:store:set design/search_engine_robots/default_robots NOINDEX,NOFOLLOW {{verbose}}");
+	}
 });
 
 desc('Remove the content of the generated folder');
