@@ -177,7 +177,7 @@ task('deploy:symlink:remove', function () {
 	$releases = get('releases_list');
 	if($releases[0]) {
 		run("if [ -d $(echo {{deploy_path}}/current-folder) ]; then cd {{deploy_path}} && rm -rf current-folder; fi");
-		run("cd {{deploy_path}} && cp -as $(pwd)releases/{$releases[0]} current-folder");
+		run("cd {{deploy_path}} && cp -as $(pwd)/releases/{$releases[0]} current-folder");
 		run("cd {{deploy_path}} && mv current current-symlink");
 		run("cd {{deploy_path}} && mv current-folder current");
 	}
