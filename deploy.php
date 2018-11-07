@@ -149,15 +149,6 @@ task('deploy:previous', function () {
 	}
 });
 
-desc('Change symlink for a copy of the folder');
-task('deploy:rmsymlink', function () {
-	$releases = get('releases_list');
-	if($releases[1]) {
-		run("rm {{deploy_path}}/current-old; mv {{deploy_path}}/current {{deploy_path}}/current-old");
-		run("cd {{deploy_path}} && cp -r releases/{$releases[0]} current");
-	}
-});
-
 desc('Redis cache flush');
 task('redis:flush', function () {
 	run("redis-cli -n 0 flushall");
@@ -167,6 +158,28 @@ desc('OPCache cache flush');
 task('opcache:flush', function () {
 	run("{{php}} -r 'opcache_reset();'");
 });
+
+// ======= Disable symlink
+desc('Change the copy of the folder for a symlink');
+task('deploy:symlink:create', function () {
+	$releases = get('releases_list');
+	run("cd {{deploy_path}} && mv current current-folder");
+	run("cd {{deploy_path}} && ln -s releases/{$releases[0]} current");
+});
+
+desc('Change symlink for a copy of the folder');
+task('deploy:symlink:remove', function () {
+	$releases = get('releases_list');
+	if($releases[0]) {
+		run("if [ -d $(echo {{deploy_path}}/current-folder) ]; then cd {{deploy_path}} && rm -rf current-folder; fi");
+		run("cd {{deploy_path}} && cp -r -d releases/{$releases[0]} current-folder");
+		run("cd {{deploy_path}} && mv current current-symlink");
+		run("cd {{deploy_path}} && mv current-folder current");
+	}
+});
+
+// before('deploy', 'deploy:symlink:create');
+// after('success', 'deploy:symlink:remove');
 
 desc('Magento2 deployment operations');
 task('deploy:magento', [
