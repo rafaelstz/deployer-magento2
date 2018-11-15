@@ -29,9 +29,9 @@ set('magento_dir', '/');
 set('magento_bin', '{{magento_dir}}bin/magento');
 set('shared_files', [
 	'{{magento_dir}}app/etc/env.php',
-	'{{magento_dir}}var/.maintenance.ip',
-	'{{magento_dir}}pub/robots.txt',
-	'{{magento_dir}}pub/sitemap.xml'
+	'{{magento_dir}}var/.maintenance.ip'
+	// '{{magento_dir}}pub/robots.txt',
+	// '{{magento_dir}}pub/sitemap.xml'
 ]);
 set('shared_dirs', [
 	'{{magento_dir}}var/composer_home',
