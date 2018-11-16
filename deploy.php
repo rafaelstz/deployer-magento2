@@ -42,6 +42,7 @@ set('shared_dirs', [
 	'{{magento_dir}}var/session',
 	'{{magento_dir}}var/importexport',
 	'{{magento_dir}}var/backups',
+	'{{magento_dir}}var/tmp',
 	'{{magento_dir}}pub/sitemaps',
 	'{{magento_dir}}pub/media'
 ]);
@@ -55,6 +56,7 @@ set('clear_paths', [
 	'{{magento_dir}}pub/static/_cache',
 	'{{magento_dir}}var/cache',
 	'{{magento_dir}}var/page_cache',
+	'{{magento_dir}}var/view_preprocessed',
 	'{{magento_dir}}var/tmp'
 ]);
 
