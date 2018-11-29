@@ -115,12 +115,14 @@ task('magento:cache:flush', function () {
 
 desc('Enable allow symlink config in Magento Panel');
 task('magento:config', function () {
-	run("cd {{release_path}} && {{php}} {{magerun}} config:store:set dev/template/allow_symlink 1 {{verbose}}");
-	run("cd {{release_path}} && {{php}} {{release_path}}{{magento_bin}} module:disable Magento_Version {{verbose}}");
-	if(get('is_production')){
-		run("cd {{release_path}} && {{php}} {{magerun}} config:store:set design/search_engine_robots/default_robots INDEX,FOLLOW {{verbose}}");
-	}else{
-		run("cd {{release_path}} && {{php}} {{magerun}} config:store:set design/search_engine_robots/default_robots NOINDEX,NOFOLLOW {{verbose}}");
+	if(test("[ -f {{release_path}}/current/app/etc/env.php ]")){
+		run("cd {{release_path}} && {{php}} {{magerun}} config:store:set dev/template/allow_symlink 1 {{verbose}}");
+		run("cd {{release_path}} && {{php}} {{release_path}}{{magento_bin}} module:disable Magento_Version {{verbose}}");
+		if(get('is_production')){
+			run("cd {{release_path}} && {{php}} {{magerun}} config:store:set design/search_engine_robots/default_robots INDEX,FOLLOW {{verbose}}");
+		}else{
+			run("cd {{release_path}} && {{php}} {{magerun}} config:store:set design/search_engine_robots/default_robots NOINDEX,NOFOLLOW {{verbose}}");
+		}
 	}
 });
 
