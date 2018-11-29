@@ -60,8 +60,14 @@ set('clear_paths', [
 	'{{magento_dir}}var/tmp'
 ]);
 
+// Check Magento version
 set('magento_version', function (){
 	return run("{{magerun}} sys:info version --root-dir={{release_path}}");
+});
+
+// Check if need update DB
+set('is_dbupdated', function (){
+	return (test('[ "$({{php}} {{release_path}}{{magento_bin}} setup:db:status --no-ansi -n)" == "All modules are up to date." ]'));
 });
 
 # ----- Magento 2 Tasks -------
@@ -104,8 +110,14 @@ task('magento:maintenance:disable', function () {
 
 desc('Upgrade magento database');
 task('magento:upgrade:db', function () {
-	run("{{php}} {{magerun}} setup:upgrade --keep-generated --root-dir={{release_path}} {{verbose}}");
-	run("{{php}} {{magerun}} sys:setup:downgrade-versions --root-dir={{release_path}} {{verbose}}");
+	if(get('is_dbupdated')){
+		write("All modules are up to date.");
+	}else{
+		run("if [ -d $(echo {{release_path}}/current/bin) ]; then {{php}} {{release_path}}{{magento_bin}} maintenance:enable {{verbose}}; fi");
+		run("{{php}} {{magerun}} setup:upgrade --keep-generated --root-dir={{release_path}} {{verbose}}");
+		run("{{php}} {{magerun}} sys:setup:downgrade-versions --root-dir={{release_path}} {{verbose}}");
+		run("if [ -d $(echo {{release_path}}/current/bin) ]; then {{php}} {{release_path}}{{magento_bin}} maintenance:disable {{verbose}}; fi");
+	}
 });
 
 desc('Flush Magento Cache');
@@ -198,9 +210,7 @@ task('deploy:magento', [
 	'magento:deploy:mode:set',
 	'magento:deploy:assets',
 	'magento:clean:generated',
-	'magento:maintenance:enable',
 	'magento:upgrade:db',
-	'magento:maintenance:disable',
 	'magento:compile',
 	'magento:cache:flush',
 	'magento:setup:permissions'
