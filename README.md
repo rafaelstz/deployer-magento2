@@ -1,4 +1,7 @@
 # Deployer Magento 2
+
+[![Build Status](https://travis-ci.org/rafaelstz/deployer-magento2.svg?branch=master)](https://travis-ci.org/rafaelstz/deployer-magento2)
+
 Easy tool to deploy and run automated commands in your Magento 2 servers.
 
 How to install
