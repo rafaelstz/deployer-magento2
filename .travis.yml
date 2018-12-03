@@ -23,3 +23,6 @@ addons:
 install:
   - composer self-update
   - composer update --no-interaction --prefer-dist $COMPOSER_FLAGS
+
+script:
+  - vendor/bin/grumphp run
