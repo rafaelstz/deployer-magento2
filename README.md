@@ -1,7 +1,10 @@
 # Deployer Magento 2
-Deployer recipe for Magento 2 project. This adds some useful tasks and operations.
 
-Install
+[![Build Status](https://travis-ci.org/rafaelstz/deployer-magento2.svg?branch=master)](https://travis-ci.org/rafaelstz/deployer-magento2)
+
+Easy tool to deploy and run automated commands in your Magento 2 servers.
+
+How to install
 -------
 
 How to install Deployer:
@@ -17,7 +20,7 @@ composer require deployer/recipes --dev
 composer require rafaelstz/deployer-magento2 dev-master --dev
 ```
 
-Usage
+How to use
 -----
 
 You can use the command `dep deploy` to run it, but you need to create in your **root** folder a file called `deploy.php` and configure your project follow this example below:

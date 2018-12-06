@@ -1,0 +1,28 @@
+language: php
+
+php:
+  - 7.0
+  - 7.1
+  - 7.2
+
+env:
+  matrix:
+    - COMPOSER_FLAGS="--prefer-lowest"
+    - COMPOSER_FLAGS="--prefer-stable"
+
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+
+addons:
+  apt:
+    update: true
+    packages:
+      - acl
+
+install:
+  - composer self-update
+  - composer update --no-interaction --prefer-dist $COMPOSER_FLAGS
+
+script:
+  - vendor/bin/grumphp run
