@@ -3,7 +3,7 @@
   "description": "Magento 2 deployment tool based on deployer.org",
   "keywords": ["magento2", "deployment", "deployer", "deploy", "tool"],
   "license": [
-    "GPL-3.0"
+    "MIT"
   ],
   "authors": [
     {
