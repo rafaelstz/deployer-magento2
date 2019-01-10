@@ -1,6 +1,7 @@
 # Deployer Magento 2
 
 [![Build Status](https://travis-ci.org/rafaelstz/deployer-magento2.svg?branch=master)](https://travis-ci.org/rafaelstz/deployer-magento2)
+[![Tags](https://img.shields.io/github/tag/rafaelstz/deployer-magento2.svg)](https://github.com/rafaelstz/deployer-magento2/releases)
 <a href="https://packagist.org/packages/rafaelstz/deployer-magento2"><img src="https://img.shields.io/packagist/dt/rafaelstz/deployer-magento2.svg" alt="Total Downloads"></a>
 
 Easy tool to deploy and run automated commands in your Magento 2 servers.
@@ -18,7 +19,7 @@ How to install this package:
 
 ```
 composer require deployer/recipes --dev
-composer require rafaelstz/deployer-magento2 dev-master --dev
+composer require rafaelstz/deployer-magento2 --dev
 ```
 
 How to use
