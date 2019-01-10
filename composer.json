@@ -2,6 +2,7 @@
   "name": "rafaelstz/deployer-magento2",
   "description": "Magento 2 deployment tool based on deployer.org",
   "keywords": ["magento2", "deployment", "deployer", "deploy", "tool"],
+  "version": "1.0.1",
   "license": [
     "MIT"
   ],
