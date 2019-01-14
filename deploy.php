@@ -41,6 +41,7 @@ set('shared_files', [
 set('shared_dirs', [
     '{{magento_dir}}var/composer_home',
     '{{magento_dir}}var/log',
+    '{{magento_dir}}var/cache',
     '{{magento_dir}}var/export',
     '{{magento_dir}}var/report',
     '{{magento_dir}}var/import_history',
