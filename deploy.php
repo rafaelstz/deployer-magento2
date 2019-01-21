@@ -67,14 +67,14 @@ set('clear_paths', [
 ]);
 
 // Check Magento version
-set('magento_version', function () {
+set('magento_version', function (){
     return run("{{magerun}} sys:info version --root-dir={{release_path}}");
 });
 
 // Check if need update DB
-set('is_dbupdated', function () {
-    return (test('[ "$({{php}} {{release_path}}{{magento_bin}} setup:db:status --no-ansi -n)" == "All modules are up to date." ]'));
-});
+function is_db_updated(){
+    return test('[ "$({{php}} {{release_path}}{{magento_bin}} setup:db:status --no-ansi -n)" === "All modules are up to date." ]');
+}
 
 # ----- Magento 2 Tasks -------
 
@@ -124,7 +124,7 @@ task('magento:maintenance:disable', function () {
 
 desc('Upgrade magento database');
 task('magento:upgrade:db', function () {
-    if (get('is_dbupdated')) {
+    if (is_db_updated()) {
         write("All modules are up to date.");
     } else {
         run("if [ -d $(echo {{release_path}}/current/bin) ]; then {{php}} {{release_path}}{{magento_bin}} maintenance:enable {{verbose}}; fi");
