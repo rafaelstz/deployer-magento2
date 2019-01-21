@@ -67,13 +67,9 @@ set('clear_paths', [
 ]);
 
 // Check Magento version
-set('magento_version', function () {
+set('magento_version', function ()
+{
     return run("{{magerun}} sys:info version --root-dir={{release_path}}");
-});
-
-// Check if need update DB
-set('is_dbupdated', function () {
-    return (test('[ "$({{php}} {{release_path}}{{magento_bin}} setup:db:status --no-ansi -n)" == "All modules are up to date." ]'));
 });
 
 # ----- Magento 2 Tasks -------
@@ -114,24 +110,28 @@ task('magento:deploy:assets', function () {
 
 desc('Enable maintenance mode');
 task('magento:maintenance:enable', function () {
-    run("if [ -d $(echo {{release_path}}/current/bin) ]; then {{php}} {{release_path}}{{magento_bin}} maintenance:enable {{verbose}}; fi");
+    run("if [ -d $(echo {{release_path}}{{magento_dir}}bin) ]; then {{php}} {{release_path}}{{magento_bin}} maintenance:enable {{verbose}}; fi");
 });
 
 desc('Disable maintenance mode');
 task('magento:maintenance:disable', function () {
-    run("if [ -d $(echo {{release_path}}/current/bin) ]; then {{php}} {{release_path}}{{magento_bin}} maintenance:disable {{verbose}}; fi");
+    run("if [ -d $(echo {{release_path}}{{magento_dir}}bin) ]; then {{php}} {{release_path}}{{magento_bin}} maintenance:disable {{verbose}}; fi");
 });
 
 desc('Upgrade magento database');
 task('magento:upgrade:db', function () {
-    if (get('is_dbupdated')) {
-        write("All modules are up to date.");
-    } else {
-        run("if [ -d $(echo {{release_path}}/current/bin) ]; then {{php}} {{release_path}}{{magento_bin}} maintenance:enable {{verbose}}; fi");
+
+    // Check if need update DB
+    $isDbUpdated = test('[ "$({{php}} {{release_path}}{{magento_bin}} setup:db:status --no-ansi -n)" == "All modules are up to date." ]');
+
+    if (!$isDbUpdated) {
+        run("if [ -d $(echo {{release_path}}{{magento_dir}}bin) ]; then {{php}} {{release_path}}{{magento_bin}} maintenance:enable {{verbose}}; fi");
         run("{{php}} {{magerun}} setup:upgrade --keep-generated --root-dir={{release_path}} {{verbose}}");
         run("{{php}} {{magerun}} sys:setup:downgrade-versions --root-dir={{release_path}} {{verbose}}");
-        run("if [ -d $(echo {{release_path}}/current/bin) ]; then {{php}} {{release_path}}{{magento_bin}} maintenance:disable {{verbose}}; fi");
+        run("if [ -d $(echo {{release_path}}{{magento_dir}}bin) ]; then {{php}} {{release_path}}{{magento_bin}} maintenance:disable {{verbose}}; fi");
     }
+    write("All modules are up to date.");
+    
 });
 
 desc('Flush Magento Cache');
@@ -141,7 +141,7 @@ task('magento:cache:flush', function () {
 
 desc('Enable allow symlink config in Magento Panel');
 task('magento:config', function () {
-    if (test("[ -f {{release_path}}/current/app/etc/env.php ]")) {
+    if (test("[ -f {{release_path}}{{magento_dir}}app/etc/env.php ]")) {
         run("cd {{release_path}} && {{php}} {{magerun}} config:store:set dev/template/allow_symlink 1 {{verbose}}");
         run("cd {{release_path}} && {{php}} {{release_path}}{{magento_bin}} module:disable Magento_Version {{verbose}}");
         if (get('is_production')) {
