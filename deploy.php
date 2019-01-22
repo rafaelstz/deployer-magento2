@@ -73,6 +73,8 @@ set('magento_version', function (){
 
 # ----- Magento 2 Tasks -------
 
+require_once __DIR__ . '/recipes/backup.php';
+
 desc('Composer Install');
 task('composer:install', function () {
     if (get('is_production')) {

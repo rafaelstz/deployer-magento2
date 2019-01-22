@@ -53,7 +53,7 @@ host('my-store.com')
     ->set('is_production', 1)
     ->stage('staging')
     ->roles('master')
-    ->configFile('~/.ssh/config')
+    // ->configFile('~/.ssh/config')
     ->identityFile('~/.ssh/id_rsa')
     ->addSshOption('UserKnownHostsFile', '/dev/null')
     ->addSshOption('StrictHostKeyChecking', 'no');
