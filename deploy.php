@@ -67,12 +67,13 @@ set('clear_paths', [
 ]);
 
 // Check Magento version
-set('magento_version', function ()
-{
+set('magento_version', function (){
     return run("{{magerun}} sys:info version --root-dir={{release_path}}");
 });
 
 # ----- Magento 2 Tasks -------
+
+require_once __DIR__ . '/recipes/backup.php';
 
 desc('Composer Install');
 task('composer:install', function () {
