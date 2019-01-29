@@ -2,7 +2,7 @@
 
 namespace Deployer;
 
-desc('Backup the database');
+desc('Create a database inside the var/ folder');
 task('magento:db:backup', function () {
     $remoteDump = "var/";
     run("cd {{release_path}}{{magento_dir}} && {{magerun}} db:dump -s @development -c gz $(date +%Y%m%d%H%M%S) {{verbose}}");
@@ -31,14 +31,14 @@ task('magento:db:download', function () {
     write('Your database dump is called: deployer_database_backup.sql.gz');
 });
 
-desc('Backup the database');
+desc('Create a backup of the media folder inside of var/ folder');
 task('magento:media:backup', function () {
     $remoteDump = "var/";
     run("cd {{release_path}}{{magento_dir}} && {{magerun}} media:dump --strip media-$(date +%Y%m%d%H%M%S).zip {{verbose}}");
     run("cd {{release_path}}{{magento_dir}} && mv media-* ". $remoteDump);
 });
 
-desc('Backup the media folder');
+desc('Download a copy of the media folder in a ZIP file');
 task('magento:media:download', function () {
 
     $remoteDump = "var/";
