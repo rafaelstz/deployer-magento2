@@ -29,6 +29,7 @@ set('release_name', function () {
 
 # ----- Magento properties -------
 set('is_production', 0);
+set('compile', 0);
 set('languages', 'en_US');
 set('magento_dir', '/');
 set('magento_bin', '{{magento_dir}}bin/magento');
@@ -78,34 +79,49 @@ require_once __DIR__ . '/recipes/backup.php';
 desc('Composer Install');
 task('composer:install', function () {
     if (get('is_production')) {
-        run("cd {{release_path}}{{magento_dir}} && {{composer}} install --no-dev --prefer-dist --optimize-autoloader {{verbose}}");
+        run("cd {{release_path}}{{magento_dir}} && {{composer}} install --no-dev --optimize-autoloader {{verbose}}");
     } else {
-        run("cd {{release_path}}{{magento_dir}} && {{composer}} install --prefer-dist --optimize-autoloader {{verbose}}");
+        run("cd {{release_path}}{{magento_dir}} && {{composer}} install --optimize-autoloader {{verbose}}");
     }
-    run('cd {{release_path}}{{magento_dir}} && {{composer}} dump-autoload --no-interaction --optimize {{verbose}} 2>&1');
+    // Deprecated since 1.2.3
+    // run('cd {{release_path}}{{magento_dir}} && {{composer}} dump-autoload --no-interaction --optimize {{verbose}} 2>&1');
 });
 
-desc('Composer update');
+desc('Composer Update');
 task('composer:update', function () {
     if (get('is_production')) {
-        run("cd {{release_path}}{{magento_dir}} && {{composer}} update --no-dev --prefer-dist --optimize-autoloader {{verbose}}");
+        run("cd {{release_path}}{{magento_dir}} && {{composer}} update --no-dev --optimize-autoloader {{verbose}}");
     } else {
-        run("cd {{release_path}}{{magento_dir}} && {{composer}} update --prefer-dist --optimize-autoloader {{verbose}}");
+        run("cd {{release_path}}{{magento_dir}} && {{composer}} update --optimize-autoloader {{verbose}}");
     }
-    run('cd {{release_path}}{{magento_dir}} && {{composer}} dump-autoload --no-interaction --optimize {{verbose}} 2>&1');
+    // Deprecated since 1.2.3
+    // run('cd {{release_path}}{{magento_dir}} && {{composer}} dump-autoload --no-interaction --optimize {{verbose}} 2>&1');
+});
+
+desc('Composer Clear Cache');
+task('composer:clearcache', function () {
+        run("cd {{release_path}}{{magento_dir}} && {{composer}} clearcache");
+        run("cd {{release_path}}{{magento_dir}} && rm -rf var/composer_home/cache/");
+        run("cd {{release_path}}{{magento_dir}} && rm -r composer.lock");
 });
 
 desc('Compile Magento DI');
 task('magento:compile', function () {
-    run("{{php}} {{release_path}}{{magento_bin}} setup:di:compile {{verbose}}");
+    if (get('is_production') || get('compile')) {
+        run("{{php}} {{release_path}}{{magento_bin}} setup:di:compile {{verbose}}");
+    } else {
+        write("Not running the DI Compile for UAT");
+    }
 });
 
 desc('Deploy assets');
 task('magento:deploy:assets', function () {
     if (get('is_production')) {
         run("{{php}} {{release_path}}{{magento_bin}} setup:static-content:deploy {{verbose}}");
-    } else {
+    } elseif (get('compile')) {
         run("{{php}} {{release_path}}{{magento_bin}} setup:static-content:deploy --force {{verbose}}");
+    } else {
+        write("Not running the Static Content deploy for UAT");
     }
 });
 
@@ -266,7 +282,8 @@ task('deploy', [
     'deploy:vendors',
     'deploy:clear_paths',
     //    'deploy:writable',
-    'composer:update',
+    // Deprecated since 1.2.2
+    // 'composer:update',
     'deploy:magento',
     'deploy:symlink',
     'opcache:flush',
