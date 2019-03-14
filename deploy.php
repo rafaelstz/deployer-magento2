@@ -29,7 +29,7 @@ set('release_name', function () {
 
 # ----- Magento properties -------
 set('is_production', 0);
-set('compile', 0);
+set('compile_UAT', 1);
 set('languages', 'en_US');
 set('magento_dir', '/');
 set('magento_bin', '{{magento_dir}}bin/magento');
@@ -107,7 +107,7 @@ task('composer:clearcache', function () {
 
 desc('Compile Magento DI');
 task('magento:compile', function () {
-    if (get('is_production') || get('compile')) {
+    if (get('is_production') || get('compile_UAT')) {
         run("{{php}} {{release_path}}{{magento_bin}} setup:di:compile {{verbose}}");
     } else {
         write("Not running the DI Compile for UAT");
@@ -118,7 +118,7 @@ desc('Deploy assets');
 task('magento:deploy:assets', function () {
     if (get('is_production')) {
         run("{{php}} {{release_path}}{{magento_bin}} setup:static-content:deploy {{verbose}}");
-    } elseif (get('compile')) {
+    } elseif (get('compile_UAT')) {
         run("{{php}} {{release_path}}{{magento_bin}} setup:static-content:deploy --force {{verbose}}");
     } else {
         write("Not running the Static Content deploy for UAT");
