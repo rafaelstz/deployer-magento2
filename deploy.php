@@ -269,8 +269,6 @@ task('deploy', [
     'composer:update',
     'deploy:magento',
     'deploy:symlink',
-    'opcache:flush',
-    'redis:flush',
     'deploy:unlock',
     'deploy:previous',
     'cleanup',
