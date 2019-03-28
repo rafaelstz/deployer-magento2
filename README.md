@@ -9,13 +9,13 @@ Easy tool to deploy and run automated commands in your Magento 2 servers.
 How to install
 -------
 
-How to install Deployer:
+How to install [Deployer](https://deployer.org/):
 
 ```
 curl -LO https://deployer.org/deployer.phar && sudo mv deployer.phar /usr/local/bin/dep && sudo chmod +x /usr/local/bin/dep
 ```
 
-How to install the Magento 2 recipe:
+How to install this **Magento 2 recipe**:
 
 ```
 composer require rafaelstz/deployer-magento2 --dev
@@ -24,7 +24,7 @@ composer require rafaelstz/deployer-magento2 --dev
 How to use
 -----
 
-You can use the command `dep deploy` to run it, but you need to create in your **root** folder a file called `deploy.php` and configure your project follow this example below:
+First of all, go to your project folder, then create a file called `deploy.php`. Inside of this file you can use this example below, modifying the values according with your project and server configurations.
 
 ```php
 <?php
@@ -56,12 +56,4 @@ host('my-store.com')
     ->identityFile('~/.ssh/id_rsa')
     ->addSshOption('UserKnownHostsFile', '/dev/null')
     ->addSshOption('StrictHostKeyChecking', 'no');
-
-// Slack Configurations
-//set('slack_webhook', 'https://hooks.slack.com/services/YOUR/REGISTER/HERE');
-//before('deploy', 'slack:notify');
-//after('success', 'slack:notify:success');
-//after('deploy:failed', 'slack:notify:failure');
-
-
 ```
