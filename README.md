@@ -1,4 +1,4 @@
-# Deployer Magento 2
+# Deployer Magento 2 recipe
 
 [![Build Status](https://travis-ci.org/rafaelstz/deployer-magento2.svg?branch=master)](https://travis-ci.org/rafaelstz/deployer-magento2)
 [![Tags](https://img.shields.io/github/tag/rafaelstz/deployer-magento2.svg)](https://github.com/rafaelstz/deployer-magento2/releases)
@@ -15,10 +15,9 @@ How to install Deployer:
 curl -LO https://deployer.org/deployer.phar && sudo mv deployer.phar /usr/local/bin/dep && sudo chmod +x /usr/local/bin/dep
 ```
 
-How to install this package:
+How to install the Magento 2 recipe:
 
 ```
-composer require deployer/recipes --dev
 composer require rafaelstz/deployer-magento2 --dev
 ```
 
@@ -31,7 +30,7 @@ You can use the command `dep deploy` to run it, but you need to create in your *
 <?php
 
 namespace Deployer;
-require __DIR__ . '/vendor/rafaelstz/deployer-magento2/deploy.php';
+require_once __DIR__ . '/vendor/rafaelstz/deployer-magento2/deploy.php';
 
 // Project
 set('application', 'My Project Name');
