@@ -81,7 +81,7 @@ task('composer:install', function () {
     } else {
         run("cd {{release_path}}{{magento_dir}} && {{composer}} install --prefer-dist --optimize-autoloader {{verbose}}");
     }
-    run('cd {{release_path}}{{magento_dir}} && {{composer}} dump-autoload --no-interaction --optimize {{verbose}} 2>&1');
+    run('cd {{release_path}}{{magento_dir}} && {{composer}} dump-autoload --optimize --no-interaction {{verbose}} 2>&1');
 });
 
 desc('Composer update');
@@ -91,7 +91,7 @@ task('composer:update', function () {
     } else {
         run("cd {{release_path}}{{magento_dir}} && {{composer}} update --prefer-dist --optimize-autoloader {{verbose}}");
     }
-    run('cd {{release_path}}{{magento_dir}} && {{composer}} dump-autoload --no-interaction --optimize {{verbose}} 2>&1');
+    run('cd {{release_path}}{{magento_dir}} && {{composer}} dump-autoload --optimize --no-interaction {{verbose}} 2>&1');
 });
 
 desc('Compile Magento DI');
@@ -264,8 +264,7 @@ task('deploy', [
     'deploy:shared',
     'deploy:vendors',
     'deploy:clear_paths',
-    //    'deploy:writable',
-    'composer:update',
+    // 'deploy:writable',
     'deploy:magento',
     'deploy:symlink',
     'deploy:unlock',
