@@ -61,8 +61,7 @@ set('clear_paths', [
     '{{magento_dir}}pub/static/_cache',
     '{{magento_dir}}var/cache',
     '{{magento_dir}}var/page_cache',
-    '{{magento_dir}}var/view_preprocessed',
-    '{{magento_dir}}var/tmp'
+    '{{magento_dir}}var/view_preprocessed'
 ]);
 
 // Check Magento version
