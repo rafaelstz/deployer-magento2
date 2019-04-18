@@ -245,10 +245,10 @@ desc('Magento2 deployment operations');
 task('deploy:magento', [
     'magento:setup:permissions',
     'magento:config',
-    'magento:deploy:mode:set',
-    'magento:deploy:assets',
     'magento:clean:generated',
+    'magento:deploy:mode:set',
     'magento:upgrade:db',
+    'magento:deploy:assets',
     'magento:compile',
     'magento:cache:flush',
     'magento:setup:permissions'
