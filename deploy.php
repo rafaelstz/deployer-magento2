@@ -79,23 +79,19 @@ require_once __DIR__ . '/recipes/backup.php';
 desc('Composer Install');
 task('composer:install', function () {
     if (get('is_production')) {
-        run("cd {{release_path}}{{magento_dir}} && {{composer}} install --no-dev --optimize-autoloader {{verbose}}");
+        run("cd {{release_path}}{{magento_dir}} && {{composer}} install --prefer-dist --no-dev --optimize-autoloader {{verbose}}");
     } else {
-        run("cd {{release_path}}{{magento_dir}} && {{composer}} install --optimize-autoloader {{verbose}}");
+        run("cd {{release_path}}{{magento_dir}} && {{composer}} install --prefer-dist --optimize-autoloader {{verbose}}");
     }
-    // Deprecated since 1.2.3
-    // run('cd {{release_path}}{{magento_dir}} && {{composer}} dump-autoload --no-interaction --optimize {{verbose}} 2>&1');
 });
 
 desc('Composer Update');
 task('composer:update', function () {
     if (get('is_production')) {
-        run("cd {{release_path}}{{magento_dir}} && {{composer}} update --no-dev --optimize-autoloader {{verbose}}");
+        run("cd {{release_path}}{{magento_dir}} && {{composer}} update --prefer-dist --no-dev --optimize-autoloader {{verbose}}");    
     } else {
-        run("cd {{release_path}}{{magento_dir}} && {{composer}} update --optimize-autoloader {{verbose}}");
+        run("cd {{release_path}}{{magento_dir}} && {{composer}} update --prefer-dist --optimize-autoloader {{verbose}}");
     }
-    // Deprecated since 1.2.3
-    // run('cd {{release_path}}{{magento_dir}} && {{composer}} dump-autoload --no-interaction --optimize {{verbose}} 2>&1');
 });
 
 desc('Composer Clear Cache');
@@ -282,8 +278,7 @@ task('deploy', [
     'deploy:vendors',
     'deploy:clear_paths',
     //    'deploy:writable',
-    // Deprecated since 1.2.2
-    // 'composer:update',
+    'composer:update',
     'deploy:magento',
     'deploy:symlink',
     'opcache:flush',
