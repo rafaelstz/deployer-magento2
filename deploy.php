@@ -73,31 +73,9 @@ set('magento_version', function (){
 # ----- Magento 2 Tasks -------
 
 require_once __DIR__ . '/recipes/backup.php';
-
-desc('Composer Install');
-task('composer:install', function () {
-    if (get('is_production')) {
-        run("cd {{release_path}}{{magento_dir}} && {{composer}} install --prefer-dist --no-dev --optimize-autoloader {{verbose}}");
-    } else {
-        run("cd {{release_path}}{{magento_dir}} && {{composer}} install --prefer-dist --optimize-autoloader {{verbose}}");
-    }
-});
-
-desc('Composer Update');
-task('composer:update', function () {
-    if (get('is_production')) {
-        run("cd {{release_path}}{{magento_dir}} && {{composer}} update --prefer-dist --no-dev --optimize-autoloader {{verbose}}");    
-    } else {
-        run("cd {{release_path}}{{magento_dir}} && {{composer}} update --prefer-dist --optimize-autoloader {{verbose}}");
-    }
-});
-
-desc('Composer Clear Cache');
-task('composer:clearcache', function () {
-        run("cd {{release_path}}{{magento_dir}} && {{composer}} clearcache");
-        run("cd {{release_path}}{{magento_dir}} && rm -rf var/composer_home/cache/");
-        run("cd {{release_path}}{{magento_dir}} && rm -r composer.lock");
-});
+require_once __DIR__ . '/recipes/composer.php';
+require_once __DIR__ . '/recipes/deploy.php';
+require_once __DIR__ . '/recipes/server.php';
 
 desc('Compile Magento DI');
 task('magento:compile', function () {
@@ -198,14 +176,6 @@ task('magento:setup:permissions', function () {
     run("chmod +x {{release_path}}{{magento_bin}}");
 });
 
-desc('Lock the previous release with the maintenance flag');
-task('deploy:previous', function () {
-    $releases = get('releases_list');
-    if ($releases[1]) {
-        run("{{php}} {{deploy_path}}/releases/{$releases[1]}{{magento_bin}} maintenance:enable {{verbose}}");
-    }
-});
-
 // Magento 2 Logs
 
 desc('Check Magento system log');
@@ -227,40 +197,6 @@ desc('Clear the Magento logs');
 task('magento:log:clear', function () {
     run("rm -rf {{deploy_path}}/shared/var/log/*.log");
 });
-
-// OPCache and Redis
-
-desc('Redis cache flush');
-task('redis:flush', function () {
-    run("redis-cli -n 0 flushall");
-});
-
-desc('OPCache cache flush');
-task('opcache:flush', function () {
-    run("{{php}} -r 'opcache_reset();'");
-});
-
-// ======= Disable symlink
-desc('Change the copy of the folder for a symlink');
-task('deploy:symlink:create', function () {
-    $releases = get('releases_list');
-    run("cd {{deploy_path}} && mv current current-folder");
-    run("cd {{deploy_path}} && ln -s releases/{$releases[0]} current");
-});
-
-desc('Change symlink for a copy of the folder');
-task('deploy:symlink:remove', function () {
-    $releases = get('releases_list');
-    if ($releases[0]) {
-        run("if [ -d $(echo {{deploy_path}}/current-folder) ]; then cd {{deploy_path}} && rm -rf current-folder; fi");
-        run("cd {{deploy_path}} && cp -as $(pwd)/releases/{$releases[0]} current-folder");
-        run("cd {{deploy_path}} && mv current current-symlink");
-        run("cd {{deploy_path}} && mv current-folder current");
-    }
-});
-
-// before('deploy', 'deploy:symlink:create');
-// after('success', 'deploy:symlink:remove');
 
 desc('Magento2 deployment operations');
 task('deploy:magento', [
@@ -296,8 +232,7 @@ task('deploy', [
 ]);
 
 after('deploy:failed', 'deploy:unlock');
-// after('deploy:failed', 'deploy:magento');
-after('deploy:failed', 'magento:maintenance:disable');
+// after('deploy:failed', 'magento:maintenance:disable');
 
 // before('rollback', 'rollback:validate');
 after('rollback', 'deploy:magento');
