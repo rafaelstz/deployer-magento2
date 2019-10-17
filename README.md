@@ -36,6 +36,8 @@ require_once __DIR__ . '/vendor/rafaelstz/deployer-magento2/deploy.php';
 set('application', 'My Project Name');
 set('repository', 'git@bitbucket.org:imagination-media/my-project.git');
 set('default_stage', 'staging');
+//set('languages', 'en_US pt_BR');
+//set('verbose', '-v');
 
 // Env Configurations
 set('php', '/usr/bin/php70');
@@ -56,4 +58,22 @@ host('my-store.com')
     ->identityFile('~/.ssh/id_rsa')
     ->addSshOption('UserKnownHostsFile', '/dev/null')
     ->addSshOption('StrictHostKeyChecking', 'no');
+```
+
+**Just add this code below too if you don't want to use releases and symlinks**
+
+```php
+set('release_path', "{{deploy_path}}");
+desc('Deploying...');
+task('deploy', [
+    'deploy:info',
+    'deploy:lock',
+    'magento:maintenance:enable',
+    'git:update_code',
+    'composer:install',
+    'deploy:magento',
+    'magento:maintenance:disable',
+    'deploy:unlock',
+    'success'
+]);
 ```

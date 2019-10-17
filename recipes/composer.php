@@ -5,9 +5,9 @@ namespace Deployer;
 desc('Composer Install');
 task('composer:install', function () {
     if (get('is_production')) {
-        run("cd {{release_path}}{{magento_dir}} && {{composer}} install --prefer-dist --no-dev --optimize-autoloader {{verbose}}");
+        run("cd {{release_path}}{{magento_dir}} && {{composer}} install --prefer-dist --no-dev {{verbose}}");
     } else {
-        run("cd {{release_path}}{{magento_dir}} && {{composer}} install --prefer-dist --optimize-autoloader {{verbose}}");
+        run("cd {{release_path}}{{magento_dir}} && {{composer}} install --prefer-dist {{verbose}}");
     }
 });
 
