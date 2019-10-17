@@ -5,7 +5,7 @@ namespace Deployer;
 desc('Compile Magento DI');
 task('magento:compile', function () {
     if (get('is_production') || get('compile_UAT')) {
-        run("{{php}} {{release_path}}{{magento_bin}} setup:di:compile {{verbose}}");
+        run("cd {{release_path}}{{magento_dir}} && {{php}} {{magento_bin}} setup:di:compile {{verbose}}");
     } else {
         write("Not running the DI Compile for UAT");
     }
@@ -14,9 +14,9 @@ task('magento:compile', function () {
 desc('Deploy assets');
 task('magento:deploy:assets', function () {
     if (get('is_production')) {
-        run("{{php}} {{release_path}}{{magento_bin}} setup:static-content:deploy {{verbose}}");
+        run("cd {{release_path}}{{magento_dir}} && {{php}} {{magento_bin}} setup:static-content:deploy {{languages}} {{verbose}}");
     } elseif (get('compile_UAT')) {
-        run("{{php}} {{release_path}}{{magento_bin}} setup:static-content:deploy --force {{verbose}}");
+        run("cd {{release_path}}{{magento_dir}} && {{php}} {{magento_bin}} setup:static-content:deploy {{languages}} --force {{verbose}}");
     } else {
         write("Not running the Static Content deploy for UAT");
     }
@@ -24,17 +24,17 @@ task('magento:deploy:assets', function () {
 
 desc('Enable maintenance mode');
 task('magento:maintenance:enable', function () {
-    run("if [ -d $(echo {{release_path}}{{magento_dir}}bin) ]; then {{php}} {{release_path}}{{magento_bin}} maintenance:enable {{verbose}}; fi");
+    run("if [ -d $(echo {{release_path}}{{magento_dir}}bin) ]; then cd {{release_path}}{{magento_dir}} && {{php}} {{magento_bin}} maintenance:enable {{verbose}}; fi");
 });
 
 desc('Disable maintenance mode');
 task('magento:maintenance:disable', function () {
-    run("if [ -d $(echo {{release_path}}{{magento_dir}}bin) ]; then {{php}} {{release_path}}{{magento_bin}} maintenance:disable {{verbose}}; fi");
+    run("if [ -d $(echo {{release_path}}{{magento_dir}}bin) ]; then cd {{release_path}}{{magento_dir}} && {{php}} {{magento_bin}} maintenance:disable {{verbose}}; fi");
 });
 
 desc('Flush Magento Cache');
 task('magento:cache:flush', function () {
-    run("{{php}} {{release_path}}{{magento_bin}} cache:flush {{verbose}}");
+    run("cd {{release_path}}{{magento_dir}} && {{php}} {{magento_bin}} cache:flush {{verbose}}");
 });
 
 desc('Remove the content of the generated folder');
@@ -45,9 +45,9 @@ task('magento:clean:generated', function () {
 desc('Set deploy mode set');
 task('magento:deploy:mode:set', function () {
     if (get('is_production')) {
-        run("{{php}} -f {{release_path}}{{magento_bin}} deploy:mode:set production --skip-compilation {{verbose}}");
+        run("cd {{release_path}}{{magento_dir}} && {{php}} {{magento_bin}} deploy:mode:set production --skip-compilation {{verbose}}");
     } else {
-        run("{{php}} -f {{release_path}}{{magento_bin}} deploy:mode:set developer {{verbose}}");
+        run("cd {{release_path}}{{magento_dir}} && {{php}} {{magento_bin}} deploy:mode:set developer {{verbose}}");
     }
 });
 
@@ -56,8 +56,8 @@ task('magento:setup:permissions', function () {
     // run("find {{release_path}}{{magento_dir}} -type d -exec chmod 755 {} \;");
     // run("find {{release_path}}{{magento_dir}} -type f -exec chmod 644 {} \;");
     run("chmod -R 755 {{release_path}}");
-    run("chmod -R 775 {{release_path}}{{magento_dir}}var");
-    run("chmod -R 775 {{release_path}}{{magento_dir}}generated");
-    run("chmod -R 775 {{release_path}}{{magento_dir}}pub/static");
-    run("chmod +x {{release_path}}{{magento_bin}}");
+    run("cd {{release_path}}{{magento_dir}} && chmod -R 775 var");
+    run("cd {{release_path}}{{magento_dir}} && chmod -R 775 generated");
+    run("cd {{release_path}}{{magento_dir}} && chmod -R 775 pub/static");
+    run("cd {{release_path}}{{magento_dir}} && chmod +x {{magento_bin}}");
 });
