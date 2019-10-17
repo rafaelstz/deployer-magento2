@@ -30,7 +30,7 @@ set('release_name', function () {
 set('is_production', 0);
 set('compile_UAT', 1);
 set('languages', 'en_US');
-set('magento_dir', '');
+set('magento_dir', '/');
 set('magento_bin', 'bin/magento');
 set('shared_files', [
     '{{magento_dir}}app/etc/env.php',
