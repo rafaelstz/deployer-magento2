@@ -17,6 +17,7 @@ task('opcache:flush', function () {
 desc('Update the code via Git');
 task('git:update_code', function () {
     run("cd {{release_path}}{{magento_dir}} && \
+        git fetch --all --tags && \
         git reset --hard origin/{{branch}} && \
         git checkout {{branch}} && \
         git pull origin {{branch}}");
