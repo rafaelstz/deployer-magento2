@@ -34,7 +34,7 @@ require_once __DIR__ . '/vendor/rafaelstz/deployer-magento2/deploy.php';
 
 // Project
 set('application', 'My Project Name');
-set('repository', 'git@bitbucket.org:imagination-media/my-project.git');
+set('repository', 'git@bitbucket.org:lesite/my-project.git');
 set('default_stage', 'staging');
 //set('languages', 'en_US pt_BR');
 //set('verbose', '-v');
