@@ -107,7 +107,7 @@ task('deploy', [
     'deploy:magento',
     'deploy:symlink',
     'deploy:unlock',
-    'deploy:previous',
+    // 'deploy:previous', // Use in case you need put the previous release in maintenance
     'cleanup',
     'success'
 ]);
@@ -115,8 +115,8 @@ task('deploy', [
 after('deploy:failed', 'deploy:unlock');
 // after('deploy:failed', 'magento:maintenance:disable');
 
-// before('rollback', 'rollback:validate');
-after('rollback', 'deploy:magento');
+before('rollback', 'rollback:validate');
+after('rollback', 'magento:upgrade:db');
 after('rollback', 'magento:maintenance:disable');
 after('rollback', 'magento:cache:flush');
 
