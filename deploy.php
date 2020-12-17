@@ -22,6 +22,7 @@ set('composer', '/usr/local/bin/composer');
 set('keep_releases', 3);
 // set('default_timeout', 360);
 set('verbose', '--quiet'); // Use --quite or -v or -vvv
+set('magerun_params', '--skip-root-check --root-dir={{release_path}}');
 set('release_name', function () {
     return date('YmdHis');
 });
@@ -67,7 +68,7 @@ set('clear_paths', [
 
 // Check Magento version
 set('magento_version', function (){
-    return run("{{magerun}} sys:info version --root-dir={{release_path}}");
+    return run("{{magerun}} sys:info version {{magerun_params}} {{verbose}}");
 });
 
 # ----- Magento 2 Tasks -------
@@ -107,7 +108,7 @@ task('deploy', [
     'deploy:magento',
     'deploy:symlink',
     'deploy:unlock',
-    'deploy:previous',
+    // 'deploy:previous', // Use in case you need put the previous release in maintenance
     'cleanup',
     'success'
 ]);
@@ -115,8 +116,8 @@ task('deploy', [
 after('deploy:failed', 'deploy:unlock');
 // after('deploy:failed', 'magento:maintenance:disable');
 
-// before('rollback', 'rollback:validate');
-after('rollback', 'deploy:magento');
+before('rollback', 'rollback:validate');
+after('rollback', 'magento:upgrade:db');
 after('rollback', 'magento:maintenance:disable');
 after('rollback', 'magento:cache:flush');
 
