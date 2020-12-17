@@ -22,6 +22,7 @@ set('composer', '/usr/local/bin/composer');
 set('keep_releases', 3);
 // set('default_timeout', 360);
 set('verbose', '--quiet'); // Use --quite or -v or -vvv
+set('magerun_params', '--skip-root-check --root-dir={{release_path}}');
 set('release_name', function () {
     return date('YmdHis');
 });
@@ -67,7 +68,7 @@ set('clear_paths', [
 
 // Check Magento version
 set('magento_version', function (){
-    return run("{{magerun}} sys:info version --root-dir={{release_path}}");
+    return run("{{magerun}} sys:info version {{magerun_params}} {{verbose}}");
 });
 
 # ----- Magento 2 Tasks -------

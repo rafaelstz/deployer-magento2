@@ -5,7 +5,7 @@ namespace Deployer;
 desc('Create a database inside the var/ folder');
 task('magento:db:backup', function () {
     $remoteDump = "var/";
-    run("cd {{release_path}}{{magento_dir}} && {{magerun}} db:dump -s @stripped -c gz $(date +%Y%m%d%H%M%S) {{verbose}}");
+    run("cd {{release_path}}{{magento_dir}} && {{magerun}} db:dump -s @stripped -c gz $(date +%Y%m%d%H%M%S) {{magerun_params}} {{verbose}}");
     run("cd {{release_path}}{{magento_dir}} && mv *.sql.gz ". $remoteDump);
 });
 
@@ -20,7 +20,7 @@ task('magento:db:download', function () {
     ];
 
     write('Creating the database dump...');
-    run("cd {{release_path}}{{magento_dir}} && {{magerun}} db:dump -s @stripped -c gz bkp {{verbose}}");
+    run("cd {{release_path}}{{magento_dir}} && {{magerun}} db:dump -s @stripped -c gz bkp {{magerun_params}} {{verbose}}");
     run("cd {{release_path}}{{magento_dir}} && mv bkp.sql.gz ". $remoteDump);
 
     write('Downloading the SQL file...');
@@ -34,7 +34,7 @@ task('magento:db:download', function () {
 desc('Create a backup of the media folder inside of var/ folder');
 task('magento:media:backup', function () {
     $remoteDump = "var/";
-    run("cd {{release_path}}{{magento_dir}} && {{magerun}} media:dump --strip media-$(date +%Y%m%d%H%M%S).zip {{verbose}}");
+    run("cd {{release_path}}{{magento_dir}} && {{magerun}} media:dump --strip media-$(date +%Y%m%d%H%M%S).zip {{magerun_params}} {{verbose}}");
     run("cd {{release_path}}{{magento_dir}} && mv media-* ". $remoteDump);
 });
 
@@ -49,7 +49,7 @@ task('magento:media:download', function () {
     ];
 
     write('Creating a Media ZIP backup...');
-    run("cd {{release_path}}{{magento_dir}} && {{magerun}} media:dump --strip media_dump.zip");
+    run("cd {{release_path}}{{magento_dir}} && {{magerun}} media:dump --strip media_dump.zip {{magerun_params}} {{verbose}}");
     run("cd {{release_path}}{{magento_dir}} && mv media_dump.zip ". $remoteDump);
 
     write('Downloading the Media ZIP file...');
