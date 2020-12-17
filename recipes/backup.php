@@ -5,7 +5,7 @@ namespace Deployer;
 desc('Create a database inside the var/ folder');
 task('magento:db:backup', function () {
     $remoteDump = "var/";
-    run("cd {{release_path}}{{magento_dir}} && {{magerun}} db:dump -s @development -c gz $(date +%Y%m%d%H%M%S) {{verbose}}");
+    run("cd {{release_path}}{{magento_dir}} && {{magerun}} db:dump -s @stripped -c gz $(date +%Y%m%d%H%M%S) {{verbose}}");
     run("cd {{release_path}}{{magento_dir}} && mv *.sql.gz ". $remoteDump);
 });
 
@@ -20,7 +20,7 @@ task('magento:db:download', function () {
     ];
 
     write('Creating the database dump...');
-    run("cd {{release_path}}{{magento_dir}} && {{magerun}} db:dump -s @development -c gz bkp {{verbose}}");
+    run("cd {{release_path}}{{magento_dir}} && {{magerun}} db:dump -s @stripped -c gz bkp {{verbose}}");
     run("cd {{release_path}}{{magento_dir}} && mv bkp.sql.gz ". $remoteDump);
 
     write('Downloading the SQL file...');
