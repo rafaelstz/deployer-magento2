@@ -4,11 +4,8 @@ php:
   - 7.0
   - 7.1
   - 7.2
-
-env:
-  matrix:
-    - COMPOSER_FLAGS="--prefer-lowest"
-    - COMPOSER_FLAGS="--prefer-stable"
+  - 7.3
+  - 7.4
 
 cache:
   directories:
@@ -21,8 +18,8 @@ addons:
       - acl
 
 install:
-  - composer self-update
-  - composer update --no-interaction --prefer-dist $COMPOSER_FLAGS
+  - composer self-update 1.10.15
+  - composer install --no-interaction --prefer-dist
 
 script:
   - vendor/bin/grumphp run
