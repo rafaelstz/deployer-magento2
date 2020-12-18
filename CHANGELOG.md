@@ -1,3 +1,9 @@
+### Version 1.3.5
+> 17 December 2020
+
+- Adding only stripped tag to get a DB dump
+- Removing putting the previous release in maintenance mode
+
 ### Version 1.2.3
 > 14 March 2019
 
