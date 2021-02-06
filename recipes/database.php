@@ -23,7 +23,7 @@ task('magento:upgrade:db', function () {
     if (!$supports) {
         invoke('magento:maintenance:enable');
         run("cd {{release_path}}{{magento_dir}} && {{php}} {{magerun}} module:disable Magento_Version {{magerun_params}} {{verbose}}");
-        run("cd {{release_path}}{{magento_dir}} && {{php}} {{magento_bin}} setup:upgrade --keep-generated {{magerun_params}} {{verbose}}");
+        run("cd {{release_path}}{{magento_dir}} && {{php}} {{magerun}} setup:upgrade --keep-generated {{magerun_params}} {{verbose}}");
         run("cd {{release_path}}{{magento_dir}} && {{php}} {{magerun}} sys:setup:downgrade-versions {{magerun_params}} {{verbose}}");
         invoke('magento:maintenance:disable');
     } else {
@@ -33,7 +33,7 @@ task('magento:upgrade:db', function () {
             write("All modules are up to date.");
             invoke('magento:maintenance:enable');
             run("cd {{release_path}}{{magento_dir}} && {{php}} {{magerun}} module:disable Magento_Version {{magerun_params}} {{verbose}}");
-            run("cd {{release_path}}{{magento_dir}} && {{php}} {{magento_bin}} setup:upgrade --keep-generated {{magerun_params}} {{verbose}}");
+            run("cd {{release_path}}{{magento_dir}} && {{php}} {{magerun}} setup:upgrade --keep-generated {{magerun_params}} {{verbose}}");
 //            run("cd {{release_path}}{{magento_dir}} && {{php}} {{magerun}} sys:setup:downgrade-versions  {{magerun_params}} {{verbose}}");
             invoke('magento:maintenance:disable');
         }else{
