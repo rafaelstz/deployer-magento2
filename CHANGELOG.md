@@ -1,3 +1,8 @@
+### Version 1.3.6
+> 10 July 2021
+
+- Remove SEO config from deploy
+
 ### Version 1.3.5
 > 17 December 2020
 
