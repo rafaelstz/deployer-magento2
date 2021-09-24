@@ -1,3 +1,9 @@
+### Version 1.3.7
+> 24 September 2021
+
+- Running DB commands without Magerun
+- Adding Composer install with --optimize-autoloader
+
 ### Version 1.3.6
 > 10 July 2021
 
