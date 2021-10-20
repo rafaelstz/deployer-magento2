@@ -68,7 +68,7 @@ set('clear_paths', [
 
 // Check Magento version
 set('magento_version', function (){
-    return run("{{php}} {{magerun}} sys:info version {{magerun_params}} {{verbose}}");
+    return run("cd {{release_path}}{{magento_dir}} && {{php}} {{magerun}} sys:info version {{magerun_params}} {{verbose}}");
 });
 
 # ----- Magento 2 Tasks -------
