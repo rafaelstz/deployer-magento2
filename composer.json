@@ -13,7 +13,7 @@
   ],
   "require": {
     "deployer/dist": "^6.0",
-    "composer/composer": "1.10.22"
+    "composer/composer": "1.10.23"
   },
   "require-dev": {
     "phpro/grumphp": "^0.14.0",
