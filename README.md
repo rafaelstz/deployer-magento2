@@ -1,6 +1,6 @@
 # Deployer Magento 2 recipe
 
-[![Build Status](https://app.travis-ci.com/chesslablab/php-chess.svg?branch=master)](https://app.travis-ci.com/chesslablab/php-chess)
+[![Build Status](https://app.travis-ci.com/rafaelstz/deployer.svg?branch=master)](https://app.travis-ci.com/rafaelstz/deployer)
 [![Tags](https://img.shields.io/github/tag/rafaelstz/deployer-magento2.svg)](https://github.com/rafaelstz/deployer-magento2/releases)
 <a href="https://packagist.org/packages/rafaelstz/deployer-magento2"><img src="https://img.shields.io/packagist/dt/rafaelstz/deployer-magento2.svg" alt="Total Downloads"></a>
 
